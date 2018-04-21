@@ -8,20 +8,24 @@ public class PlayerSpriteController : MonoBehaviour
 
     private Animator _animator;
     private MouseInput _mouseInput;
-    private SpriteRenderer _spriteRenderer;
+    //private SpriteRenderer _spriteRenderer;
     private PlayerHorizontalMovement _playerHorizontalMovement;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
         _mouseInput = Camera.main.GetComponent<MouseInput>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        //_spriteRenderer = GetComponent<SpriteRenderer>();
         _playerHorizontalMovement = GetComponentInParent<PlayerHorizontalMovement>();
     }
 
     private void Update()
     {
-        _spriteRenderer.flipX = FacingLeft();
+        Vector3 newScale = Vector3.one;
+        newScale.x = FacingLeft() ? 1 : -1;
+
+        transform.localScale = newScale;
+        //_spriteRenderer.flipX = FacingLeft();
 
         if (_playerHorizontalMovement.PlayerMoving)
         {

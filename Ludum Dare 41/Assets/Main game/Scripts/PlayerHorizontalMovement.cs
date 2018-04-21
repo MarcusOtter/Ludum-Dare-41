@@ -20,9 +20,9 @@ public class PlayerHorizontalMovement : MonoBehaviour
         _playerCollision = GetComponent<PlayerCollisionInfo>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (MouseGreaterThanDeadzone() && !_playerCollision.OnWall)
+        if (MouseGreaterThanDeadzone())
         {
             PlayerMoving = true;
             MovePlayerTowardsMouse();
@@ -42,7 +42,17 @@ public class PlayerHorizontalMovement : MonoBehaviour
     private void MovePlayerTowardsMouse()
     {
         float direction = Mathf.Sign(transform.position.x - _mouseInput.MouseWorldPosition.x);
-        float xVelocity = _movementSpeed * -direction * Time.deltaTime;
+        float xVelocity = _movementSpeed * -direction;
+
+        if (_playerCollision.OnRightWall && xVelocity > 0)
+        {
+            xVelocity = 0;
+        }
+        else if (_playerCollision.OnLeftWall && xVelocity < 0)
+        {
+            xVelocity = 0;
+        }
+
         _rigidbody.velocity = new Vector2(xVelocity, _rigidbody.velocity.y);
     }
 }

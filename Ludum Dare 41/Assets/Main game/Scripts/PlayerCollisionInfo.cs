@@ -3,15 +3,20 @@
 public class PlayerCollisionInfo : MonoBehaviour
 {
     internal bool OnGround;
-    internal bool OnWall;
+
+    //internal bool OnWall;
+    internal bool OnRightWall;
+    internal bool OnLeftWall;
 
     [Header("Wall raycast settings")]
-    [SerializeField] private float _raycastYOffset = 0.4f;
+    [SerializeField] private Vector2 _raycastYOffset;
+    [SerializeField] private float _raycastYSpreadDistance = 0.4f;
     [SerializeField] private float _wallRayLength = 0.8f;
 
     [Space(10)]
     [Header("Ground raycast settings")]
-    [SerializeField] private float _raycastXOffset = 0.4f;
+    [SerializeField] private Vector2 _raycastXOffset;
+    [SerializeField] private float _raycastXSpeadDistance = 0.4f;
     [SerializeField] private float _groundRayLength = 1.1f;
 
     [Space(10)]
@@ -98,22 +103,22 @@ public class PlayerCollisionInfo : MonoBehaviour
         float currentXPos = transform.position.x;
         float currentYPos = transform.position.y;
 
-        _leftGroundRaycastOrigin = new Vector2(currentXPos - _raycastXOffset, currentYPos);
+        _leftGroundRaycastOrigin = new Vector2(currentXPos + _raycastXOffset.x - _raycastXSpeadDistance, currentYPos);
         _leftGroundRaycastEnd = new Vector2(_leftGroundRaycastOrigin.x, currentYPos - _groundRayLength);
 
-        _rightGroundRaycastOrigin = new Vector2(currentXPos + _raycastXOffset, currentYPos);
+        _rightGroundRaycastOrigin = new Vector2(currentXPos + _raycastXOffset.x + _raycastXSpeadDistance, currentYPos);
         _rightGroundRaycastEnd = new Vector2(_rightGroundRaycastOrigin.x, currentYPos - _groundRayLength);
 
-        _upperLeftRaycastOrigin = new Vector2(currentXPos, currentYPos + _raycastYOffset);
+        _upperLeftRaycastOrigin = new Vector2(currentXPos, currentYPos + _raycastYSpreadDistance);
         _upperLeftRaycastEnd = new Vector2(currentXPos - _wallRayLength, _upperLeftRaycastOrigin.y);
 
-        _bottomLeftRaycastOrigin = new Vector2(currentXPos, currentYPos - _raycastYOffset);
+        _bottomLeftRaycastOrigin = new Vector2(currentXPos, currentYPos - _raycastYSpreadDistance);
         _bottomLeftRaycastEnd = new Vector2(currentXPos - _wallRayLength, _bottomLeftRaycastOrigin.y);
 
-        _upperRightRaycastOrigin = new Vector2(currentXPos, currentYPos + _raycastYOffset);
+        _upperRightRaycastOrigin = new Vector2(currentXPos, currentYPos + _raycastYSpreadDistance);
         _upperRightRaycastEnd = new Vector2(currentXPos + _wallRayLength, _upperLeftRaycastOrigin.y);
 
-        _bottomRightRaycastOrigin = new Vector2(currentXPos, currentYPos - _raycastYOffset);
+        _bottomRightRaycastOrigin = new Vector2(currentXPos, currentYPos - _raycastYSpreadDistance);
         _bottomRightRaycastEnd = new Vector2(currentXPos + _wallRayLength, _bottomRightRaycastOrigin.y);
     }
 
@@ -122,17 +127,73 @@ public class PlayerCollisionInfo : MonoBehaviour
         if (_upperLeftRaycastHit == false && _bottomLeftRaycastHit == false && _upperRightRaycastHit == false &&
             _bottomRightRaycastHit == false)
         {
-            OnWall = false;
+            OnRightWall = false;
+            OnLeftWall = false;
             return;
         }
 
-        OnWall = true;
+        // The 4 if statements below this could be a bit sketchy.
+        // If you're having bugs with colliders and being on walls,
+        // this is probably where that happens.
+
+        #region SketchyButtonColliderException
+
+        if (_upperLeftRaycastHit == true && _upperLeftRaycastHit.collider.gameObject.layer == 8)
+        {
+            OnLeftWall = false;
+            return;
+        }
+
+        if (_bottomLeftRaycastHit == true && _bottomLeftRaycastHit.collider.gameObject.layer == 8)
+        {
+            OnLeftWall = false;
+            return;
+        }
+
+        if (_upperRightRaycastHit == true && _upperRightRaycastHit.collider.gameObject.layer == 8)
+        {
+            OnRightWall = false;
+            return;
+        }
+
+        if (_bottomRightRaycastHit == true && _bottomRightRaycastHit.collider.gameObject.layer == 8)
+        {
+            OnRightWall = false;
+            return;
+        }
+
+        #endregion
+
+        if (_upperLeftRaycastHit == true || _bottomLeftRaycastHit == true)
+        {
+            OnLeftWall = true;
+            OnRightWall = false;
+            return;
+        }
+
+        if (_upperRightRaycastHit == true || _bottomRightRaycastHit == true)
+        {
+            OnRightWall = true;
+            OnLeftWall = false;
+        }
     }
 
     private void CheckIfGrounded()
     {
         // If both of raycasts are not colliding, return
         if (_leftGroundRaycastHit == false && _rightGroundRaycastHit == false)
+        {
+            OnGround = false;
+            return;
+        }
+
+        if (_leftGroundRaycastHit == true && _leftGroundRaycastHit.collider.gameObject.layer == 8)
+        {
+            OnGround = false;
+            return;
+        }
+
+        if (_rightGroundRaycastHit == true && _rightGroundRaycastHit.collider.gameObject.layer == 8)
         {
             OnGround = false;
             return;

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class MouseInput : MonoBehaviour
 {
     internal delegate void ClickAction();
@@ -62,6 +63,7 @@ public class MouseInput : MonoBehaviour
             _lastRightClickTime = Time.time;
             if (RightClick == null) return;
             RightClick();
+
         }
 
         if (Input.GetMouseButtonUp(1))

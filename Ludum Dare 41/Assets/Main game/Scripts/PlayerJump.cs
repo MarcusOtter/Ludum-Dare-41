@@ -21,6 +21,14 @@ public class PlayerJump : MonoBehaviour
         _playerCollisionInfo = GetComponent<PlayerCollisionInfo>();
     }
 
+    private void Update()
+    {
+        if (_playerCollisionInfo.OnGround)
+        {
+            _canDoubleJump = true;
+        }
+    }
+
     private void Jump()
     {
         if (!_playerCollisionInfo.OnGround)
@@ -30,6 +38,7 @@ public class PlayerJump : MonoBehaviour
                 return;
             }
 
+            // Double jump
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0);
             _rigidbody.AddForce(new Vector2(0, _jumpHeight));
             _canDoubleJump = false;
@@ -37,6 +46,7 @@ public class PlayerJump : MonoBehaviour
             return;
         }
 
+        // Normal jump
         _playerCollisionInfo.OnGround = false;
         _rigidbody.AddForce(new Vector2(0, _jumpHeight));
         _canDoubleJump = true;
