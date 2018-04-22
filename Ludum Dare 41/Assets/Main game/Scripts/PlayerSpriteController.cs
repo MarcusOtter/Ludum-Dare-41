@@ -21,6 +21,12 @@ public class PlayerSpriteController : MonoBehaviour
 
     private void Update()
     {
+        if (PauseController.Paused)
+        {
+            StartCoroutine(SetIdle());
+            return;
+        }
+
         Vector3 newScale = Vector3.one;
         newScale.x = FacingLeft() ? 1 : -1;
 

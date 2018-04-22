@@ -22,7 +22,14 @@ public class PlayerHorizontalMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // TODO : Add check for paused
+        if (PauseController.Paused)
+        {
+            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.simulated = false;
+            return;
+        }
+
+        _rigidbody.simulated = true;
 
         if (MouseGreaterThanDeadzone())
         {

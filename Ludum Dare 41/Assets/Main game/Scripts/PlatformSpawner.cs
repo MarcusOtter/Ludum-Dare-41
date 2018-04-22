@@ -4,17 +4,17 @@ using UnityEngine.Tilemaps;
 
 public class PlatformSpawner : MonoBehaviour
 {
+    internal List<Platform> SpawnedPlatforms = new List<Platform>();
+    internal Vector3Int PlatformSpawnOffset;
+
     [SerializeField] private Tilemap _platformTilemap;
     [SerializeField] private Tile _platformTile;
 
     [SerializeField] private int _maxPlatforms;
 
-    private List<Platform> _spawnedPlatforms = new List<Platform>();
-
     private Transform _playerTransform;
 
     private bool _spawnedOnce;
-    private Vector3Int _platformSpawnOffset;
 
     private void OnEnable()
     {
@@ -43,18 +43,18 @@ public class PlatformSpawner : MonoBehaviour
 
         int middleTileX = Mathf.RoundToInt(_playerTransform.position.x - 0.5f);
         int middleTileY = Mathf.RoundToInt(_playerTransform.position.y + 2);
-        _platformSpawnOffset = new Vector3Int(-(int)_platformTilemap.transform.position.x, -(int)_platformTilemap.transform.position.y, 0);
+        PlatformSpawnOffset = new Vector3Int(-(int)_platformTilemap.transform.position.x, -(int)_platformTilemap.transform.position.y, 0);
 
         var platform = new Platform();
-        platform.Positions.Add(new Vector3Int(middleTileX - 1 + _platformSpawnOffset.x, middleTileY + _platformSpawnOffset.y, 0));    // Leftmost tile
-        platform.Positions.Add(new Vector3Int(middleTileX + _platformSpawnOffset.x, middleTileY + _platformSpawnOffset.y, 0));        // Middle tile
-        platform.Positions.Add(new Vector3Int(middleTileX + 1 + _platformSpawnOffset.x, middleTileY + _platformSpawnOffset.y, 0));    // Rightmost tile
+        platform.Positions.Add(new Vector3Int(middleTileX - 1 + PlatformSpawnOffset.x, middleTileY + PlatformSpawnOffset.y, 0));    // Leftmost tile
+        platform.Positions.Add(new Vector3Int(middleTileX + PlatformSpawnOffset.x, middleTileY + PlatformSpawnOffset.y, 0));        // Middle tile
+        platform.Positions.Add(new Vector3Int(middleTileX + 1 + PlatformSpawnOffset.x, middleTileY + PlatformSpawnOffset.y, 0));    // Rightmost tile
 
         platform.Tiles.Add(_platformTile);
         platform.Tiles.Add(_platformTile);
         platform.Tiles.Add(_platformTile);
 
-        if (_spawnedPlatforms.Count >= _maxPlatforms)
+        if (SpawnedPlatforms.Count >= _maxPlatforms)
         {
             RemoveFirstPlatform();
         }
@@ -64,14 +64,14 @@ public class PlatformSpawner : MonoBehaviour
 
     private void RemoveFirstPlatform()
     {
-        var platformToRemove = _spawnedPlatforms[0];
+        var platformToRemove = SpawnedPlatforms[0];
 
         foreach (var tilePosition in platformToRemove.Positions)
         {
             _platformTilemap.SetTile(tilePosition, null);
         }
 
-        _spawnedPlatforms.RemoveAt(0);
+        SpawnedPlatforms.RemoveAt(0);
     }
 
     private void SpawnPlatform(Platform platform)
@@ -81,7 +81,7 @@ public class PlatformSpawner : MonoBehaviour
             _platformTilemap.SetTile(platform.Positions[i], platform.Tiles[i]);
         }
 
-        _spawnedPlatforms.Add(platform);
+        SpawnedPlatforms.Add(platform);
         _spawnedOnce = true;
     }
 

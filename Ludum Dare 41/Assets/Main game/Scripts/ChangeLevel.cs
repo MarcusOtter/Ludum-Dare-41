@@ -18,7 +18,7 @@ public class ChangeLevel : MonoBehaviour
         }
     }
 
-    private void LoadLevel()
+    public void LoadLevel()
     {
         int sceneIndex = 0;
 

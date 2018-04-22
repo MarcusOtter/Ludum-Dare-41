@@ -42,7 +42,10 @@ public class PlayerJump : MonoBehaviour
 
     private void Jump()
     {
-        // TODO : Add check for paused
+        if (PauseController.Paused)
+        {
+            return;
+        }
 
         if (!_playerCollisionInfo.OnGround)
         {

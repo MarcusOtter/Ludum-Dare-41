@@ -103,23 +103,23 @@ public class PlayerCollisionInfo : MonoBehaviour
         float currentXPos = transform.position.x;
         float currentYPos = transform.position.y;
 
-        _leftGroundRaycastOrigin = new Vector2(currentXPos + _raycastXOffset.x - _raycastXSpeadDistance, currentYPos);
-        _leftGroundRaycastEnd = new Vector2(_leftGroundRaycastOrigin.x, currentYPos - _groundRayLength);
+        _leftGroundRaycastOrigin = new Vector2(currentXPos + _raycastXOffset.x - _raycastXSpeadDistance, currentYPos + _raycastXOffset.y);
+        _leftGroundRaycastEnd = new Vector2(_leftGroundRaycastOrigin.x, currentYPos - _groundRayLength + _raycastXOffset.y);
 
-        _rightGroundRaycastOrigin = new Vector2(currentXPos + _raycastXOffset.x + _raycastXSpeadDistance, currentYPos);
-        _rightGroundRaycastEnd = new Vector2(_rightGroundRaycastOrigin.x, currentYPos - _groundRayLength);
+        _rightGroundRaycastOrigin = new Vector2(currentXPos + _raycastXOffset.x + _raycastXSpeadDistance, currentYPos + _raycastXOffset.y);
+        _rightGroundRaycastEnd = new Vector2(_rightGroundRaycastOrigin.x, currentYPos - _groundRayLength + _raycastXOffset.y);
 
-        _upperLeftRaycastOrigin = new Vector2(currentXPos, currentYPos + _raycastYSpreadDistance);
-        _upperLeftRaycastEnd = new Vector2(currentXPos - _wallRayLength, _upperLeftRaycastOrigin.y);
+        _upperLeftRaycastOrigin = new Vector2(currentXPos + _raycastYOffset.x, currentYPos + _raycastYSpreadDistance + _raycastYOffset.y);
+        _upperLeftRaycastEnd = new Vector2(currentXPos - _wallRayLength + _raycastYOffset.x, _upperLeftRaycastOrigin.y);
 
-        _bottomLeftRaycastOrigin = new Vector2(currentXPos, currentYPos - _raycastYSpreadDistance);
-        _bottomLeftRaycastEnd = new Vector2(currentXPos - _wallRayLength, _bottomLeftRaycastOrigin.y);
+        _bottomLeftRaycastOrigin = new Vector2(currentXPos + _raycastYOffset.x, currentYPos - _raycastYSpreadDistance + _raycastYOffset.y);
+        _bottomLeftRaycastEnd = new Vector2(currentXPos - _wallRayLength + _raycastYOffset.x, _bottomLeftRaycastOrigin.y);
 
-        _upperRightRaycastOrigin = new Vector2(currentXPos, currentYPos + _raycastYSpreadDistance);
-        _upperRightRaycastEnd = new Vector2(currentXPos + _wallRayLength, _upperLeftRaycastOrigin.y);
+        _upperRightRaycastOrigin = new Vector2(currentXPos + _raycastYOffset.x, currentYPos + _raycastYSpreadDistance + _raycastYOffset.y);
+        _upperRightRaycastEnd = new Vector2(currentXPos + _wallRayLength + _raycastYOffset.x, _upperRightRaycastOrigin.y);
 
-        _bottomRightRaycastOrigin = new Vector2(currentXPos, currentYPos - _raycastYSpreadDistance);
-        _bottomRightRaycastEnd = new Vector2(currentXPos + _wallRayLength, _bottomRightRaycastOrigin.y);
+        _bottomRightRaycastOrigin = new Vector2(currentXPos + _raycastYOffset.x, currentYPos - _raycastYSpreadDistance + _raycastYOffset.y);
+        _bottomRightRaycastEnd = new Vector2(currentXPos + _wallRayLength + _raycastYOffset.x, _bottomRightRaycastOrigin.y);
     }
 
     private void CheckIfOnWall()
