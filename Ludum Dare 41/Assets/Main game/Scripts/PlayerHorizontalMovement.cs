@@ -22,6 +22,8 @@ public class PlayerHorizontalMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // TODO : Add check for paused
+
         if (MouseGreaterThanDeadzone())
         {
             PlayerMoving = true;

@@ -3,12 +3,22 @@
 [RequireComponent(typeof(Rigidbody2D), typeof(PlayerCollisionInfo))]
 public class PlayerJump : MonoBehaviour
 {
+    [Header("General jump settings")]
     [SerializeField] private float _jumpHeight;
+
+    [Space(10)]
+    [Header("Jump sound settings")]
+    [SerializeField] private AudioClip _jump01;
+    [SerializeField] private AudioClip _jump02;
+
+    [SerializeField] private float _maxJumpPitch;
+    [SerializeField] private float _minJumpPitch;
 
     private Rigidbody2D _rigidbody;
     private PlayerCollisionInfo _playerCollisionInfo;
 
     private bool _canDoubleJump = true;
+    private AudioSource _audioSource;
 
     private void OnEnable()
     {
@@ -19,6 +29,7 @@ public class PlayerJump : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _playerCollisionInfo = GetComponent<PlayerCollisionInfo>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -31,6 +42,8 @@ public class PlayerJump : MonoBehaviour
 
     private void Jump()
     {
+        // TODO : Add check for paused
+
         if (!_playerCollisionInfo.OnGround)
         {
             if (!_canDoubleJump)
@@ -43,6 +56,7 @@ public class PlayerJump : MonoBehaviour
             _rigidbody.AddForce(new Vector2(0, _jumpHeight));
             _canDoubleJump = false;
             _playerCollisionInfo.OnGround = false;
+            PlayJumpSound(_jump01);
             return;
         }
 
@@ -50,6 +64,14 @@ public class PlayerJump : MonoBehaviour
         _playerCollisionInfo.OnGround = false;
         _rigidbody.AddForce(new Vector2(0, _jumpHeight));
         _canDoubleJump = true;
+        PlayJumpSound(_jump02);
+    }
+
+    private void PlayJumpSound(AudioClip clip)
+    {
+        float pitch = Random.Range(_minJumpPitch, _maxJumpPitch);
+        _audioSource.pitch = pitch;
+        _audioSource.PlayOneShot(clip);
     }
 
     private void OnDisable()
