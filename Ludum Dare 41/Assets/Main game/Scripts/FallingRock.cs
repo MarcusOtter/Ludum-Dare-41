@@ -2,22 +2,28 @@
 
 public class FallingRock : MonoBehaviour
 {
-    [SerializeField] private float decayTime;
+    [SerializeField] private float _decayTime;
+    [SerializeField] private GameObject _stoneCrackAnimation;
+    [SerializeField] private float _rotateSpeed;
 
 	private void Start ()
 	{
-		Destroy(gameObject, decayTime);
+		Destroy(gameObject, _decayTime);
 	}
+
+    private void Update()
+    {
+        transform.Rotate(0, 0, -_rotateSpeed);
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.collider.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Rock"))
         {
-            // TODO: Damage player
+            return;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        Instantiate(_stoneCrackAnimation, transform.position, Quaternion.Euler(Vector3.zero));
+        Destroy(gameObject);
     }
 }

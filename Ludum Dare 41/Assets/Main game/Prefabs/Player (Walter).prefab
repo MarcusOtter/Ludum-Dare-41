@@ -88,8 +88,9 @@ GameObject:
   - component: {fileID: 212421567320717880}
   - component: {fileID: 60245252709909424}
   - component: {fileID: 95445707420888916}
-  - component: {fileID: 61446532671028310}
   - component: {fileID: 114560882662804488}
+  - component: {fileID: 114271358139167544}
+  - component: {fileID: 60763786708969258}
   m_Layer: 2
   m_Name: Graphics
   m_TagString: Player
@@ -246,15 +247,15 @@ PolygonCollider2D:
       - {x: -0.30008078, y: -0.9998925}
       - {x: 0.6999872, y: -1.0000312}
       - {x: 0.3927781, y: -0.007493168}
---- !u!61 &61446532671028310
-BoxCollider2D:
+--- !u!60 &60763786708969258
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1725349775933804}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 460e90de70843c349b8b785201a70322, type: 2}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -268,9 +269,15 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.9, y: 1.9}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.059735775, y: 0.6675558}
+      - {x: -0.114935875, y: 1.0725002}
+      - {x: -0.7097635, y: 1.0606668}
+      - {x: -0.7828641, y: 0.5627688}
+      - {x: -0.3848729, y: -0.99047124}
+      - {x: 0.7659373, y: -1.0000312}
+      - {x: 0.51525545, y: 0.011349492}
 --- !u!82 &82487840175670816
 AudioSource:
   m_ObjectHideFlags: 1
@@ -402,6 +409,26 @@ MonoBehaviour:
   _jump02: {fileID: 8300000, guid: a03f731a543f4ec429a31ef9d1dccbb7, type: 3}
   _maxJumpPitch: 1
   _minJumpPitch: 0.8
+--- !u!114 &114271358139167544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1725349775933804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 101cadfb5704e264eb010e76c6334d3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelToLoad: 1
+  _fadeAnimator: {fileID: 0}
+  _canvasGroup: {fileID: 0}
+  _textToDeactivate: {fileID: 0}
+  _hurtSound: {fileID: 8300000, guid: 0f1b5e6c52c06f447bf6fb1f812b3e27, type: 3}
+  _hurtVolume: 0.8
+  _falldownSound: {fileID: 0}
+  _falldownVolume: 0
+  _falldownPitch: 0
 --- !u!114 &114560882662804488
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -5,6 +5,8 @@ public class AmbientAudioController : MonoBehaviour
 {
     internal static AmbientAudioController Instance { get; private set; }
 
+    internal static int RopeCount { get; private set; }
+
     [Header("General droplet settings")]
     [SerializeField] private AudioSource _dropletAudioSource;
 
@@ -22,6 +24,25 @@ public class AmbientAudioController : MonoBehaviour
 
     private AudioClip _dropletClip;
     private bool _playDroplets = true;
+
+    private int _ropesThisLife;
+
+    internal void AddRope()
+    {
+        RopeCount++;
+        _ropesThisLife++;
+    }
+
+    internal void ResetRopesThisLife()
+    {
+        _ropesThisLife = 0;
+    }
+
+    internal void RemoveRopesThisLife()
+    {
+        RopeCount -= _ropesThisLife;
+        _ropesThisLife = 0;
+    }
 
     private void Start()
     {
