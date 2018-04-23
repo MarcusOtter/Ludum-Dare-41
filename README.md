@@ -1,5 +1,3 @@
-![Walter's Well (1).jpg](///raw/fe3/21/z/10ff1.jpg)
-
 ## Walter's Well - A point and click side-scroller game for the Ludum Dare 41.
 Theme: Compare 2 incompatible genres.
 
